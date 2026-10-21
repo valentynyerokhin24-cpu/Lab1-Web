@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechWave — Інтернет-магазин комп'ютерної техніки</title>
+  <meta name="description" content="Магазин комплектуючих та готових ПК. Конфігуратор збірки, доставка по Україні.">
+  <link rel="canonical" href="https://techwave.ua/">
+
+  <!-- Розмітка Schema.org для SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ComputerStore",
+    "name": "TechWave",
+    "url": "https://techwave.ua/",
+    "priceRange": "$$",
+    "paymentAccepted": "Cash, Credit Card",
+    "currenciesAccepted": "UAH"
+  }
+  </script>
+
+  <style>
+    /* CSS Змінні: Темна та Світла теми */
+    :root[data-theme="dark"] {
+      --bg-main: #0b1120;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --accent: #10b981;
+      --danger: #ef4444;
+      --badge-bg: #1e3a8a;
+      --badge-text: #bfdbfe;
+    }
+
+    :root[data-theme="light"] {
+      --bg-main: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f8fafc;
+      --border-color: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent: #059669;
+      --danger: #dc2626;
+      --badge-bg: #dbeafe;
+      --badge-text: #1e40af;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Верхня панель (Header) */
+    header {
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--primary);
+      background-color: var(--badge-bg);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .theme-toggle-btn {
+      background: none;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 1.1rem;
+      padding: 0.45rem 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .cart-indicator {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Навигация Хлебные крошки */
+    .breadcrumbs-wrap {
+      max-width: 1280px;
+      margin: 1rem auto 0;
+      padding: 0 1.5rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .breadcrumbs-wrap a {
+      color: var(--primary);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Контейнер страниц */
+    main {
+      max-width: 1280px;
+      margin: 1.5rem auto 3rem;
+      padding: 0 1.5rem;
+      flex: 1;
+      width: 100%;
+    }
+
+    .page-section {
+      display: none;
+    }
+
+    .page-section.active {
+      display: block;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Элементы каталога */
+    .catalog-controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      background: var(--bg-card);
+      padding: 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    .search-input {
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-main);
+      color: var(--text-main);
+      min-width: 260px;
+      outline: none;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--bg-main);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .card:hover {
+      border-color: var(--primary);
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      margin: 0.5rem 0;
+      cursor: pointer;
+      color: var(--text-main);
+    }
+
+    .card-title:hover {
+      color: var(--primary);
+    }
+
+    .card-specs {
+      list-style: none;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 0.75rem 0 1.25rem;
+      line-height: 1.6;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border-color);
+      padding-top: 0.75rem;
+      margin-top: auto;
+    }
+
+    .price-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.55rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.15s;
+    }
+
+    .btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Детальная страница товара */
+    .product-detail-view {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .product-detail-view {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .detail-photo-placeholder {
+      background: var(--bg-main);
+      border: 2px dashed var(--border-color);
+      border-radius: 12px;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .tech-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+
+    .tech-table td {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.9rem;
+    }
+
+    .tech-table td:first-child {
+      color: var(--text-muted);
+      width: 45%;
+    }
+
+    /* Страница Конфигуратора */
+    .builder-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+
+    .builder-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .builder-step-box {
+      background: var(--bg-main);
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .builder-step-box label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    select.builder-select {
+      width: 100%;
+      padding: 0.65rem;
+      border-radius: 6px;
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      outline: none;
+    }
+
+    .builder-summary-box {
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      border-radius: 8px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .status-badge.ok {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .status-badge.fail {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--danger);
+      border: 1px solid var(--danger);
+    }
+
+    /* Страница Корзины */
+    .cart-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+
+    .cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+    }
+
+    .cart-table th, .cart-table td {
+      padding: 0.9rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .order-form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 0.65rem;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      border-radius: 6px;
+      outline: none;
+    }
+
+    /* Подвал (Footer) */
+    footer {
+      background-color: var(--bg-card);
+      border-top: 1px solid var(--border-color);
+      margin-top: auto;
+      padding: 2.5rem 1.5rem 1.5rem;
+    }
+
+    .footer-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-col h4 {
+      margin-bottom: 1rem;
+      color: var(--text-main);
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-col a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .footer-col a:hover {
+      color: var(--primary);
+    }
+
+    .copyright {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Хедер -->
+  <header>
+    <div class="header-inner">
+      <a class="brand" onclick="navigateTo('catalog')">⚡ TechWave</a>
+      <nav>
+        <ul>
+          <li><a id="nav-catalog" class="active" onclick="navigateTo('catalog')">Каталог</a></li>
+          <li><a id="nav-builder" onclick="navigateTo('builder')">Конфігуратор ПК</a></li>
+          <li><a id="nav-info" onclick="navigateTo('info')">Доставка та гарантія</a></li>
+          <li><a id="nav-account" onclick="navigateTo('account')">Особистий кабінет</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle-btn" id="themeBtn" title="Змінити тему оформлення">🌙</button>
+        <button class="cart-indicator" onclick="navigateTo('cart')">
+          🛒 <span id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Хлебные крошки -->
+  <div class="breadcrumbs-wrap">
+    <span id="breadcrumbPath"><a onclick="navigateTo('catalog')">Головна</a> / <span>Каталог товарів</span></span>
+  </div>
+
+  <main>
+    <!-- СТРАНИЦА 1: КАТАЛОГ ТОВАРОВ -->
+    <section id="page-catalog" class="page-section active">
+      <div class="catalog-controls">
+        <div class="filter-tabs">
+          <button class="tab-btn active" onclick="applyCategoryFilter('all', this)">Всі категорії</button>
+          <button class="tab-btn" onclick="applyCategoryFilter('cpu', this)">Процесори</button>
+          <button class="tab-btn" onclick="applyCategoryFilter('mb', this)">Материнські плати</button>
+          <button class="tab-btn" onclick="applyCategoryFilter('gpu', this)">Відеокарти</button>
+          <button class="tab-btn" onclick="applyCategoryFilter('ram', this)">Оперативна пам'ять</button>
+          <button class="tab-btn" onclick="applyCategoryFilter('psu', this)">Блоки живлення</button>
+        </div>
+        <input type="text" id="searchInput" class="search-input" placeholder="Пошук за назвою або сокетом..." oninput="handleSearch()">
+      </div>
+
+      <div class="products-grid" id="productCardsContainer">
+        <!-- Генерируется из JavaScript -->
+      </div>
+    </section>
+
+    <!-- СТРАНИЦА 2: ДЕТАЛЬНАЯ СТРАНИЦА ТОВАРА -->
+    <section id="page-product" class="page-section">
+      <div class="product-detail-view" id="productDetailContainer">
+        <!-- Заполняется динамически при клике на товар -->
+      </div>
+    </section>
+
+    <!-- СТРАНИЦА 3: КОНФИГУРАТОР ПК С ПРОВЕРКОЙ СОВМЕСТИМОСТИ -->
+    <section id="page-builder" class="page-section">
+      <div class="builder-container">
+        <h2>🛠️ Інтерактивний конфігуратор системного блоку</h2>
+        <p style="color: var(--text-muted); margin-top: 0.4rem;">
+          Автоматична перевірка сокета процесора, слотів материнської плати та сумарного енергоспоживання (TDP).
+        </p>
+
+        <div class="builder-steps">
+          <div class="builder-step-box">
+            <label for="bldCpu">1. Процесор (CPU):</label>
+            <select id="bldCpu" class="builder-select" onchange="runBuilderValidation()">
+              <option value="">-- Оберіть CPU --</option>
+              <option value="cpu1" data-socket="LGA1700" data-tdp="65" data-price="7899">Intel Core i5-14400F (LGA1700, 65W) — 7 899 грн</option>
+              <option value="cpu2" data-socket="AM5" data-tdp="105" data-price="8450">AMD Ryzen 5 7600X (AM5, 105W) — 8 450 грн</option>
+              <option value="cpu3" data-socket="AM4" data-tdp="65" data-price="4300">AMD Ryzen 5 5600 (AM4, 65W) — 4 300 грн</option>
+            </select>
+          </div>
+
+          <div class="builder-step-box">
+            <label for="bldMb">2. Материнська плата (Motherboard):</label>
+            <select id="bldMb" class="builder-select" onchange="runBuilderValidation()">
+              <option value="">-- Оберіть плату --</option>
+              <option value="mb1" data-socket="LGA1700" data-ram="DDR5" data-price="4900">ASUS PRIME B760M-A (LGA1700, DDR5) — 4 900 грн</option>
+              <option value="mb2" data-socket="AM5" data-ram="DDR5" data-price="5800">MSI PRO B650M-P (AM5, DDR5) — 5 800 грн</option>
+              <option value="mb3" data-socket="AM4" data-ram="DDR4" data-price="3400">Gigabyte B550M DS3H (AM4, DDR4) — 3 400 грн</option>
+            </select>
+          </div>
+
+          <div class="builder-step-box">
+            <label for="bldGpu">3. Відеокарта (GPU):</label>
+            <select id="bldGpu" class="builder-select" onchange="runBuilderValidation()">
+              <option value="">-- Оберіть відеокарту --</option>
+              <option value="gpu1" data-tdp="115" data-price="13999">Nvidia GeForce RTX 4060 8GB (TDP 115W) — 13 999 грн</option>
+              <option value="gpu2" data-tdp="200" data-price="24500">Nvidia GeForce RTX 4070 Super (TDP 220W) — 24 500 грн</option>
+              <option value="gpu3" data-tdp="50" data-price="2800">Вбудоване / Базове відео (50W) — 2 800 грн</option>
+            </select>
+          </div>
+
+          <div class="builder-step-box">
+            <label for="bldPsu">4. Блок живлення (PSU):</label>
+            <select id="bldPsu" class="builder-select" onchange="runBuilderValidation()">
+              <option value="">-- Оберіть БЖ --</option>
+              <option value="psu1" data-watt="500" data-price="2100">Deepcool PK500D 500W Bronze — 2 100 грн</option>
+              <option value="psu2" data-watt="650" data-price="3300">Chieftec Proton 650W Bronze — 3 300 грн</option>
+              <option value="psu3" data-watt="750" data-price="4800">Corsair RM750e 750W Gold — 4 800 грн</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="builder-summary-box">
+          <div>
+            <div id="builderStatusBadge" class="status-badge ok">Очікування вибору деталей</div>
+            <p id="builderNotes" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.4rem;">
+              Оберіть компоненти для розрахунку параметрів системи.
+            </p>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Орієнтовна вартість збірки:</div>
+            <div id="builderTotalPrice" style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">0 грн</div>
+            <button class="btn" style="margin-top: 0.5rem;" onclick="addBuildToCart()">Додати всю збірку в кошик</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СТРАНИЦА 4: КОРЗИНА И ОФОРМЛЕНИЕ ЗАКАЗА -->
+    <section id="page-cart" class="page-section">
+      <div class="cart-wrapper">
+        <h2>Кошик замовлень</h2>
+        <div id="cartContentArea" style="margin-top: 1.5rem;">
+          <!-- Таблица или пустое состояние -->
+        </div>
+
+        <div id="checkoutFormBlock" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; display: none;">
+          <h3>Оформлення доставки</h3>
+          <form onsubmit="submitOrder(event)">
+            <div class="order-form-grid">
+              <div class="form-group">
+                <label>Прізвище та ім'я:</label>
+                <input type="text" required placeholder="Іван Коваленко">
+              </div>
+              <div class="form-group">
+                <label>Контактний телефон:</label>
+                <input type="tel" required placeholder="+38 (067) 000-00-00">
+              </div>
+              <div class="form-group">
+                <label>Місто доставки:</label>
+                <input type="text" required placeholder="Київ">
+              </div>
+              <div class="form-group">
+                <label>Спосіб доставки:</label>
+                <select>
+                  <option>Нова Пошта (Відділення)</option>
+                  <option>Нова Пошта (Поштомат)</option>
+                  <option>Кур'єр на адресу</option>
+                  <option>Самовивіз із шоуруму</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn" style="margin-top: 1.5rem; padding: 0.75rem 2rem;">Підтвердити замовлення</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- СТРАНИЦА 5: ИНФОРМАЦИЯ О ДОСТАВКЕ И ГАРАНТИИ -->
+    <section id="page-info" class="page-section">
+      <div class="cart-wrapper">
+        <h2>Умови доставки та офіційна гарантія</h2>
+        <div style="margin-top: 1.5rem; line-height: 1.8;">
+          <h3 style="margin-bottom: 0.5rem; color: var(--primary);">Доставка по Україні</h3>
+          <p style="color: var(--text-muted); margin-bottom: 1rem;">
+            Відправлення здійснюються щодня сервісом «Нова Пошта». При замовленні на суму від 10 000 грн — доставка у відділення безкоштовна. Термін доставки складає від 1 до 2 робочих днів.
+          </p>
+
+          <h3 style="margin-bottom: 0.5rem; color: var(--primary);">Гарантійні зобов'язання</h3>
+          <p style="color: var(--text-muted); margin-bottom: 1rem;">
+            На всі окремі комплектуючі надається офіційна гарантія від виробника терміном від 24 до 36 місяців. У разі замовлення повної конфігурації через наш Конфігуратор, магазин надає комплексну гарантію 36 місяців на весь системний блок разом із безкоштовним сервісним обслуговуванням.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- СТРАНИЦА 6: ЛИЧНЫЙ КАБИНЕТ ПОЛЬЗОВАТЕЛЯ -->
+    <section id="page-account" class="page-section">
+      <div class="cart-wrapper">
+        <h2>Особистий кабінет покупця</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+          <div style="background: var(--bg-main); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border-color);">
+            <h3>Профіль</h3>
+            <p style="color: var(--text-muted); margin: 0.5rem 0;">Покупець: Валентин</p>
+            <p style="color: var(--text-muted);">Статус програми лояльності: <strong>Gold (Знижка 3%)</strong></p>
+          </div>
+          <div style="background: var(--bg-main); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border-color);">
+            <h3>Історія замовлень</h3>
+            <p style="color: var(--text-muted); margin-top: 0.5rem;">Замовлення #TW-8491 — <em>Виконано</em> (Відеокарта RTX 4060)</p>
+            <p style="color: var(--text-muted); margin-top: 0.3rem;">Замовлення #TW-9022 — <em>В обробці</em> (Комплект пам'яті DDR5)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Футер -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>TechWave Store</h4>
+        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.6;">
+          Сучасний маркетплейс комп'ютерного обладнання з автоматизованою валідацією сумісності систем.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Розділи</h4>
+        <ul>
+          <li><a onclick="navigateTo('catalog')">Каталог комплектуючих</a></li>
+          <li><a onclick="navigateTo('builder')">Конфігуратор комп'ютера</a></li>
+          <li><a onclick="navigateTo('info')">Гарантія та повернення</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Клієнтам</h4>
+        <ul>
+          <li><a onclick="navigateTo('account')">Особистий кабінет</a></li>
+          <li><a onclick="navigateTo('cart')">Переглянути кошик</a></li>
+          <li><a href="/sitemap.xml">Мапа сайту (Sitemap)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2026 TechWave Inc. Всі права захищено. Лабораторна робота №1: Проектування веб-застосунків.
+    </div>
+  </footer>
+
+  <!-- СКРИПТ: Логика тем, роутинга, конфигуратора и корзины -->
+  <script>
+    /* ==========================================================================
+       1. БАЗА ДАННЫХ ТОВАРОВ
+       ========================================================================== */
+    const PRODUCTS = [
+      {
+        id: 'cpu-i5-14400f',
+        category: 'cpu',
+        title: 'Intel Core i5-14400F',
+        price: 7899,
+        socket: 'LGA1700',
+        specs: ['10 ядер (6P + 4E) / 16 потоків', 'Базова частота: 2.5 - 4.7 ГГц', 'TDP: 65 Вт', 'Підтримка DDR4 / DDR5'],
+        fullDescription: 'Потужний процесор 14-го покоління Raptor Lake Refresh. Ідеальний баланс продуктивності для сучасних ігрових збірок середнього класу.'
+      },
+      {
+        id: 'cpu-r5-7600x',
+        category: 'cpu',
+        title: 'AMD Ryzen 5 7600X',
+        price: 8450,
+        socket: 'AM5',
+        specs: ['6 ядер / 12 потоків Zen 4', 'Частота: 4.7 - 5.3 ГГц', 'TDP: 105 Вт', 'Тільки DDR5'],
+        fullDescription: 'Сучасний процесор на платформі AM5 із розблокованим множником для розгону та високою швидкістю на одне ядро.'
+      },
+      {
+        id: 'mb-b760-asus',
+        category: 'mb',
+        title: 'ASUS PRIME B760M-A',
+        price: 4900,
+        socket: 'LGA1700',
+        specs: ['Чіпсет Intel B760', 'Форм-фактор Micro-ATX', '4x DDR5 до 7200 МГц', '2x M.2 NVMe PCIe 4.0'],
+        fullDescription: 'Надійна материнська плата для процесорів Intel Core 12-14 поколінь з ефективним охолодженням VRM-зони.'
+      },
+      {
+        id: 'mb-b650-msi',
+        category: 'mb',
+        title: 'MSI PRO B650M-P',
+        price: 5800,
+        socket: 'AM5',
+        specs: ['Чіпсет AMD B650', 'Форм-фактор Micro-ATX', '4x DDR5 слоти', 'Стабільне цифрове живлення'],
+        fullDescription: 'Оптимальне рішення для платформи AM5 з підтримкою новітніх швидкісних інтерфейсів та інтуїтивним BIOS.'
+      },
+      {
+        id: 'gpu-rtx4060',
+        category: 'gpu',
+        title: 'Gigabyte GeForce RTX 4060 Eagle 8GB',
+        price: 13999,
+        socket: 'PCIe 4.0',
+        specs: ['8GB GDDR6 (128-bit)', 'Архітектура Ada Lovelace', 'DLSS 3.5 та трасування променів', 'Споживання: 115 Вт'],
+        fullDescription: 'Енергоефективна відеокарта для комфортної гри у роздільній здатності 1080p на ультраналаштуваннях із генерацією кадрів DLSS 3.'
+      },
+      {
+        id: 'gpu-rtx4070s',
+        category: 'gpu',
+        title: 'ASUS Dual RTX 4070 Super 12GB',
+        price: 24500,
+        socket: 'PCIe 4.0',
+        specs: ['12GB GDDR6X (192-bit)', '7168 CUDA ядер', 'Підтримка 2K Quad HD геймінгу', 'Споживання: 220 Вт'],
+        fullDescription: 'Високопродуктивний відеоадаптер для 1440p-геймінгу з солідним запасом відеопам’яті та тихим охолодженням Axial-tech.'
+      },
+      {
+        id: 'ram-kingston-32',
+        category: 'ram',
+        title: 'Kingston Fury Beast DDR5 32GB (2x16GB)',
+        price: 4250,
+        socket: 'DDR5',
+        specs: ['Частота: 6000 МГц', 'Таймінги: CL36', 'Профілі Intel XMP 3.0 та AMD EXPO', 'Низькопрофільний радіатор'],
+        fullDescription: 'Швидкісний комплект двоканальної оперативної пам’яті з заводськими профілями оптимізації для систем на Intel та AMD.'
+      },
+      {
+        id: 'psu-chieftec-650',
+        category: 'psu',
+        title: 'Chieftec Proton 650W',
+        price: 3300,
+        socket: 'ATX',
+        specs: ['Потужність: 650 Вт', 'Сертифікат 80 PLUS Bronze', 'Модульне підключення кабелів', 'Японські конденсатори'],
+        fullDescription: 'Надійне джерело живлення з єдиною потужною лінією +12V та всіма необхідними системами захисту (OCP, OVP, SCP).'
+      }
+    ];
+
+    /* ==========================================================================
+       2. ПЕРЕКЛЮЧЕНИЕ ТЕМЫ (СВЕТЛАЯ / ТЕМНАЯ)
+       ========================================================================== */
+    const themeBtn = document.getElementById('themeBtn');
+    const rootHtml = document.documentElement;
+
+    function applyTheme(theme) {
+      rootHtml.setAttribute('data-theme', theme);
+      localStorage.setItem('tw_theme', theme);
+      themeBtn.innerText = theme === 'dark' ? '🌙' : '☀️';
+    }
+
+    const savedTheme = localStorage.getItem('tw_theme') || 'dark';
+    applyTheme(savedTheme);
+
+    themeBtn.addEventListener('click', () => {
+      const current = rootHtml.getAttribute('data-theme');
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    /* ==========================================================================
+       3. СИСТЕМА МАРШРУТИЗАЦИИ (SPA НАВИГАЦИЯ)
+       ========================================================================== */
+    function navigateTo(pageId, extraParam = null) {
+      document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+
+      const targetSection = document.getElementById(`page-${pageId}`);
+      if (targetSection) targetSection.classList.add('active');
+
+      const navLink = document.getElementById(`nav-${pageId}`);
+      if (navLink) navLink.classList.add('active');
+
+      const breadcrumbs = document.getElementById('breadcrumbPath');
+
+      if (pageId === 'catalog') {
+        breadcrumbs.innerHTML = `<a onclick="navigateTo('catalog')">Головна</a> / <span>Каталог товарів</span>`;
+      } else if (pageId === 'builder') {
+        breadcrumbs.innerHTML = `<a onclick="navigateTo('catalog')">Головна</a> / <span>Конфігуратор ПК</span>`;
+      } else if (pageId === 'cart') {
+        breadcrumbs.innerHTML = `<a onclick="navigateTo('catalog')">Головна</a> / <span>Кошик</span>`;
+      } else if (pageId === 'info') {
+        breadcrumbs.innerHTML = `<a onclick="navigateTo('catalog')">Головна</a> / <span>Доставка та гарантія</span>`;
+      } else if (pageId === 'account') {
+        breadcrumbs.innerHTML = `<a onclick="navigateTo('catalog')">Головна</a> / <span>Особистий кабінет</span>`;
+      } else if (pageId === 'product' && extraParam) {
+        renderProductDetail(extraParam);
+        breadcrumbs.innerHTML = `<a onclick="navigateTo('catalog')">Каталог</a> / <span>${extraParam.title}</span>`;
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ==========================================================================
+       4. ОТОБРАЖЕНИЕ КАТАЛОГА И ПОИСК
+       ========================================================================== */
+    let currentCategory = 'all';
+
+    function renderCatalog() {
+      const container = document.getElementById('productCardsContainer');
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+      container.innerHTML = '';
+
+      const filtered = PRODUCTS.filter(p => {
+        const matchesCat = (currentCategory === 'all' || p.category === currentCategory);
+        const matchesSearch = p.title.toLowerCase().includes(searchTerm) || 
+                              p.socket.toLowerCase().includes(searchTerm);
+        return matchesCat && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem;">Нічого не знайдено за вашим запитом.</p>`;
+        return;
+      }
+
+      filtered.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.setAttribute('itemscope', '');
+        card.setAttribute('itemtype', 'https://schema.org/Product');
+
+        card.innerHTML = `
+          <span class="card-badge">${p.socket}</span>
+          <div>
+            <h3 class="card-title" itemprop="name" onclick='openProduct("${p.id}")'>${p.title}</h3>
+            <ul class="card-specs">
+              ${p.specs.slice(0, 3).map(s => `<li>• ${s}</li>`).join('')}
+            </ul>
+          </div>
+          <div class="card-footer" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+            <div class="price-value"><span itemprop="price">${p.price.toLocaleString('uk-UA')}</span> грн</div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-outline" onclick='openProduct("${p.id}")'>Деталі</button>
+              <button class="btn" onclick='addToCart("${p.title}", ${p.price})'>+ Кошик</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function applyCategoryFilter(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderCatalog();
+    }
+
+    function handleSearch() {
+      renderCatalog();
+    }
+
+    /* ==========================================================================
+       5. ДЕТАЛЬНАЯ СТРАНИЦА ТОВАРА
+       ========================================================================== */
+    function openProduct(id) {
+      const product = PRODUCTS.find(p => p.id === id);
+      if (product) {
+        navigateTo('product', product);
+      }
+    }
+
+    function renderProductDetail(product) {
+      const container = document.getElementById('productDetailContainer');
+      container.innerHTML = `
+        <div class="detail-photo-placeholder">
+          <span>📦</span>
+          <span style="font-size: 1rem; color: var(--text-muted); margin-top: 1rem;">Офіційне фото обладнання</span>
+        </div>
+        <div>
+          <span class="card-badge" style="position: static;">${product.category.toUpperCase()}</span>
+          <h1 style="margin: 0.75rem 0; font-size: 1.8rem;">${product.title}</h1>
+          <p style="color: var(--text-muted); line-height: 1.6;">${product.fullDescription}</p>
+
+          <table class="tech-table">
+            <tbody>
+              <tr><td>Сумісний інтерфейс / Сокет</td><td><strong>${product.socket}</strong></td></tr>
+              ${product.specs.map(spec => {
+                const parts = spec.split(':');
+                return `<tr><td>${parts[0]}</td><td>${parts[1] || 'Підтримується'}</td></tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 1.5rem;">
+            <span style="font-size: 1.8rem; font-weight: 800;">${product.price.toLocaleString('uk-UA')} грн</span>
+            <button class="btn" style="padding: 0.75rem 1.75rem;" onclick='addToCart("${product.title}", ${product.price})'>Купити товар</button>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ==========================================================================
+       6. ЛОГИКА КОНФИГУРАТОРА С ПРОВЕРКОЙ СОВМЕСТИМОСТИ
+       ========================================================================== */
+    function runBuilderValidation() {
+      const cpu = document.getElementById('bldCpu');
+      const mb = document.getElementById('bldMb');
+      const gpu = document.getElementById('bldGpu');
+      const psu = document.getElementById('bldPsu');
+
+      const cpuOpt = cpu.options[cpu.selectedIndex];
+      const mbOpt = mb.options[mb.selectedIndex];
+      const gpuOpt = gpu.options[gpu.selectedIndex];
+      const psuOpt = psu.options[psu.selectedIndex];
+
+      const statusBadge = document.getElementById('builderStatusBadge');
+      const notes = document.getElementById('builderNotes');
+      const totalPriceElem = document.getElementById('builderTotalPrice');
+
+      let totalPrice = 0;
+      let systemTdp = 50; // Базовое потребление компонентов платы, кулеров и дисков
+
+      if (cpuOpt.value) {
+        totalPrice += parseInt(cpuOpt.getAttribute('data-price')) || 0;
+        systemTdp += parseInt(cpuOpt.getAttribute('data-tdp')) || 0;
+      }
+      if (mbOpt.value) totalPrice += parseInt(mbOpt.getAttribute('data-price')) || 0;
+      if (gpuOpt.value) {
+        totalPrice += parseInt(gpuOpt.getAttribute('data-price')) || 0;
+        systemTdp += parseInt(gpuOpt.getAttribute('data-tdp')) || 0;
+      }
+      if (psuOpt.value) totalPrice += parseInt(psuOpt.getAttribute('data-price')) || 0;
+
+      totalPriceElem.innerText = `${totalPrice.toLocaleString('uk-UA')} грн`;
+
+      // Проверка сокета
+      if (cpuOpt.value && mbOpt.value) {
+        const cpuSocket = cpuOpt.getAttribute('data-socket');
+        const mbSocket = mbOpt.getAttribute('data-socket');
+
+        if (cpuSocket !== mbSocket) {
+          statusBadge.className = 'status-badge fail';
+          statusBadge.innerText = '❌ Помилка несумісності сокета!';
+          notes.innerHTML = `Процесор розрахований на сокет <strong>${cpuSocket}</strong>, а обрана материнська плата має <strong>${mbSocket}</strong>.`;
+          return;
+        }
+      }
+
+      // Проверка мощности БП
+      if (psuOpt.value) {
+        const psuWatt = parseInt(psuOpt.getAttribute('data-watt')) || 0;
+        const recommendedWatt = systemTdp + 150; // Запас по мощности 150W
+
+        if (psuWatt < recommendedWatt) {
+          statusBadge.className = 'status-badge fail';
+          statusBadge.innerText = '⚠️ Недостатня потужність блоку живлення!';
+          notes.innerHTML = `Сумарне пікове навантаження системи ~${systemTdp} Вт. Рекомендований БЖ від <strong>${recommendedWatt} Вт</strong>. Обрано лише ${psuWatt} Вт.`;
+          return;
+        }
+      }
+
+      if (cpuOpt.value && mbOpt.value) {
+        statusBadge.className = 'status-badge ok';
+        statusBadge.innerText = '✅ Всі обрані вузли повністю сумісні!';
+        notes.innerText = `Розраховане енергоспоживання платформи: ~${systemTdp} Вт.`;
+      } else {
+        statusBadge.className = 'status-badge ok';
+        statusBadge.innerText = 'Конфігурація формується...';
+        notes.innerText = 'Оберіть процесор і материнську плату для фінального звіту.';
+      }
+    }
+
+    function addBuildToCart() {
+      const cpu = document.getElementById('bldCpu');
+      const mb = document.getElementById('bldMb');
+
+      if (!cpu.value || !mb.value) {
+        alert('Будь ласка, оберіть як мінімум Процесор та Материнську плату перед додаванням!');
+        return;
+      }
+
+      const cpuOpt = cpu.options[cpu.selectedIndex];
+      const mbOpt = mb.options[mb.selectedIndex];
+
+      if (cpuOpt.getAttribute('data-socket') !== mbOpt.getAttribute('data-socket')) {
+        alert('Неможливо додати несумісну збірку в кошик! Виправте сокет материнської плати.');
+        return;
+      }
+
+      addToCart(`Збірка ПК: ${cpuOpt.text.split('(')[0]} + ${mbOpt.text.split('(')[0]}`, 
+                parseInt(cpuOpt.getAttribute('data-price')) + parseInt(mbOpt.getAttribute('data-price')));
+      navigateTo('cart');
+    }
+
+    /* ==========================================================================
+       7. КОРЗИНА И ОФОРМЛЕНИЕ ЗАКАЗА
+       ========================================================================== */
+    let cartItems = [];
+
+    function addToCart(title, price) {
+      cartItems.push({ id: Date.now(), title, price });
+      updateCartUI();
+    }
+
+    function removeFromCart(id) {
+      cartItems = cartItems.filter(item => item.id !== id);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      document.getElementById('cartBadge').innerText = cartItems.length;
+      const area = document.getElementById('cartContentArea');
+      const checkoutBlock = document.getElementById('checkoutFormBlock');
+
+      if (cartItems.length === 0) {
+        area.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 2rem;">Ваш кошик порожній. Перейдіть до каталогу або конфігуратора.</p>`;
+        checkoutBlock.style.display = 'none';
+        return;
+      }
+
+      checkoutBlock.style.display = 'block';
+      let total = 0;
+      let html = `
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Товар</th>
+              <th>Ціна</th>
+              <th>Дія</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      cartItems.forEach(item => {
+        total += item.price;
+        html += `
+          <tr>
+            <td><strong>${item.title}</strong></td>
+            <td>${item.price.toLocaleString('uk-UA')} грн</td>
+            <td><button class="btn btn-outline" style="padding: 0.3rem 0.6rem; color: var(--danger); border-color: var(--danger);" onclick="removeFromCart(${item.id})">Видалити</button></td>
+          </tr>
+        `;
+      });
+
+      html += `
+          </tbody>
+        </table>
+        <div style="text-align: right; font-size: 1.3rem; font-weight: 800;">
+          До сплати: <span style="color: var(--primary);">${total.toLocaleString('uk-UA')} грн</span>
+        </div>
+      `;
+
+      area.innerHTML = html;
+    }
+
+    function submitOrder(e) {
+      e.preventDefault();
+      alert('Дякуємо! Ваше замовлення успішно прийнято в обробку. Номер накладної надіслано в SMS.');
+      cartItems = [];
+      updateCartUI();
+      navigateTo('catalog');
+    }
+
+    // Инициализация при старте
+    renderCatalog();
+    updateCartUI();
+  </script>
+</body>
+</html>
